@@ -17,26 +17,27 @@ import com.croods.springbootjpaauth.repository.UserRepository;
 import com.croods.springbootjpaauth.vo.Role;
 import com.croods.springbootjpaauth.vo.User;
 
-import lombok.val;
-
 @Service
 @Transactional
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService 
+{
 	@Autowired
 	private UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
-		val grantedAuthorities = new HashSet<GrantedAuthority>();
-
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
+	{
+		User user=userRepository.findByUsername(username);
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+	       
 		System.out.println(user.getRoles().toString());
-		for (Role role : user.getRoles()) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-		}
+		for (Role role : user.getRoles())
+		{
+	            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+	    }
 
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				grantedAuthorities);
+			
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
 	}
 
 }

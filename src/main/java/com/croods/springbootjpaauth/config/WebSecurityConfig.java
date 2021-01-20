@@ -17,19 +17,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Bean(name="passwordEncoder")
-    public PasswordEncoder passwordencoder(){
-     return new BCryptPasswordEncoder();
-    }
+	 @Bean(name="passwordEncoder")
+	    public PasswordEncoder passwordencoder(){
+	     return new BCryptPasswordEncoder();
+	    }
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception 
+	{
 		 auth.userDetailsService(userDetailsService).passwordEncoder(passwordencoder());
 
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception 
+	{
 		 http.authorizeRequests()
 		  .antMatchers("/hello").access("hasRole('ROLE_ADMIN')")
 		  .antMatchers("/hellouser").access("hasRole('ROLE_USER')")
